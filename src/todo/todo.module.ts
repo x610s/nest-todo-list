@@ -9,6 +9,6 @@ import { TodoProfile } from './dto/todo.profile';
 @Module({
   imports: [TypeOrmModule.forFeature([Todo])],
   controllers: [TodoController],
-  providers: [TodoService, TodoRepository,TodoProfile],
+  providers: [TodoService, TodoRepository, TodoProfile],
 })
 export class TodoModule {}

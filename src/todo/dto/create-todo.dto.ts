@@ -7,7 +7,9 @@ export class CreateTodoDto {
   title: string;
 
   @AutoMap()
-  @MinLength(10, { message: 'Descripción muy corta' })
+  @MinLength(10, {
+    message: 'La descripción debe tener al menos 10 caracteres',
+  })
   description: string;
 
   @AutoMap()
