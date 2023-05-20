@@ -19,8 +19,8 @@ export class TodoService {
     }
   }
 
-  async findById(id: number) {
-    const todo = await this.todoRepository.finById(id);
+  async findOne(id: number) {
+    const todo = await this.todoRepository.findOne(id);
     if (todo == null) {
       throw new HttpException(
         { message: ['TODO no encontrado'] },

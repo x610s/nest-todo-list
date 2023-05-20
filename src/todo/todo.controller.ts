@@ -22,6 +22,10 @@ export class TodoController {
     return await this.todoService.findAll();
   }
 
+  /* El metodo no lo uso ya que al final mandé por el state la tarea al modal
+    que muestra la tarea detallada, pero igual lo dejo para que se vea como impletaría yo
+    el metodo findOne
+  */
   @Get(':id')
   async findOne(@Param('id') id: string) {
     if (isNaN(Number(id))) {
@@ -30,7 +34,7 @@ export class TodoController {
         HttpStatus.BAD_REQUEST,
       );
     }
-    return await this.todoService.findById(+id);
+    return await this.todoService.findOne(+id);
   }
 
   @Post()

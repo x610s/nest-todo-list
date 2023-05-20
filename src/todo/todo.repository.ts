@@ -19,7 +19,7 @@ export class TodoRepository {
     return this.usersRepository.find();
   }
 
-  finById(id: number): Promise<Todo> {
+  findOne(id: number): Promise<Todo> {
     return this.usersRepository.findOne({ where: { id } });
   }
 
