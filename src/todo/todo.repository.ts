@@ -1,6 +1,6 @@
 import { DeleteResult, Repository } from 'typeorm';
 import { Todo } from './entities/todo.entity';
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { InjectMapper } from '@automapper/nestjs';
@@ -23,20 +23,33 @@ export class TodoRepository {
     return this.usersRepository.findOne({ where: { id } });
   }
 
-  create(createTodoDto: CreateTodoDto) {
+  async create(createTodoDto: CreateTodoDto) {
     const todo = this.classMapper.map(createTodoDto, CreateTodoDto, Todo);
-    return this.usersRepository.save(todo);
+    return await this.usersRepository.save(todo);
   }
 
   async update(id: number, updateTodoDto: UpdateTodoDto) {
     const exists = await this.usersRepository.exist({ where: { id } });
     if (!exists) {
-      throw new HttpException('TODO no encontrado', 404, {
-        cause: new Error('TODO no encontrado'),
-      });
+      throw new HttpException(
+        { message: ['TODO no encontrado'] },
+        HttpStatus.NOT_FOUND,
+      );
     }
     const newTodo = this.classMapper.map(updateTodoDto, UpdateTodoDto, Todo);
     return await this.usersRepository.save(newTodo);
+  }
+
+  async markAsReady(id: number) {
+    const todo = await this.usersRepository.findOne({ where: { id } });
+    if (!todo) {
+      throw new HttpException(
+        { message: ['TODO no encontrado'] },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    todo.completed = !todo.completed;
+    return await this.usersRepository.save(todo);
   }
 
   delete(id: number): Promise<DeleteResult> {

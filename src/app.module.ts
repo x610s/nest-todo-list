@@ -3,20 +3,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TodoModule } from './todo/todo.module';
 import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
+import { dataSourceOptions } from 'db/data-source';
 @Module({
-  /*  imports: [TypeOrmModule.forRoot(dataSourceOptions), TodoModule], */
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '',
-      database: 'todo-db',
-      autoLoadEntities: true,
-      //    entities: [__dirname + 'dist/**/*.entity.js'],
-      migrations: ['dist/db/migrations/*.js'],
-    }),
+    TypeOrmModule.forRoot({ ...dataSourceOptions, autoLoadEntities: true }),
     AutomapperModule.forRoot({
       strategyInitializer: classes(),
     }),

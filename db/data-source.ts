@@ -6,8 +6,10 @@ export const dataSourceOptions: DataSourceOptions = {
   port: 3306,
   username: 'root',
   password: '',
+  // migrationsRun: true,
+  synchronize: true,
   database: 'todo-db',
-  entities: [__dirname + 'dist/**/*.entity.js'],
+  entities: ['dist/**/*.entity.js'],
   migrations: ['dist/db/migrations/*.js'],
 };
 
